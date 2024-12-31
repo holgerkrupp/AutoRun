@@ -1,0 +1,69 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "0" : {
+
+    },
+    "active" : {
+
+    },
+    "App is launched every %@" : {
+
+    },
+    "Auto Run - Development" : {
+
+    },
+    "Create new Timer" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit Timer" : {
+
+    },
+    "fire once" : {
+
+    },
+    "Hours" : {
+
+    },
+    "inactive" : {
+
+    },
+    "Launch at Login" : {
+
+    },
+    "Minutes" : {
+
+    },
+    "no Timers saved" : {
+
+    },
+    "Parent Timer Seconds: %lld" : {
+
+    },
+    "Quit" : {
+
+    },
+    "Remove this timer" : {
+
+    },
+    "repeat" : {
+
+    },
+    "Seconds" : {
+
+    },
+    "Select App" : {
+
+    },
+    "Set custom name" : {
+
+    },
+    "Timer invalid" : {
+
+    }
+  },
+  "version" : "1.0"
+}

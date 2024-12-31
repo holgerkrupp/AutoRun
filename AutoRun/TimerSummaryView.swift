@@ -29,7 +29,8 @@ struct TimerSummaryView: View {
             VStack{
                 
                 Toggle(isOn: $isActive) {
-                    Label(($isActive.wrappedValue ? "stop" : "start"), systemImage: ($isActive.wrappedValue ? "pause" : "play"))
+                    Label(($isActive.wrappedValue ? "active" : "inactive"), systemImage: ($isActive.wrappedValue ? "figure.run" : "figure.stand"))
+                        .foregroundStyle(($isActive.wrappedValue ? .secondary : .primary))
                 }
                 .toggleStyle(.switch)
                 .onAppear(){
@@ -60,11 +61,16 @@ struct TimerSummaryView: View {
                 Text(timer.fileName?.lastPathComponent ?? "no app selected")
                     .font(.body)
                 if $isActive.wrappedValue == true{
-                    Text("App is launched every \(timer.interval.description) Seconds")
-                    
-                    if let fireDate = timer.nextFireDate {
+                    if timer.doesRepeat{
+                        Text("App is launched every \(timer.durationDescription)")
+                    }else{
+                        
+                    }
+                    if let fireDate = timer.nextFireDate, fireDate > Date() {
+                        CountdownView(finish: $timer.nextFireDate)
                         Text(fireDate.formatted(date: .abbreviated, time: .standard))
                     }
+                   
 
                 }else {
                     Text("Timer invalid")

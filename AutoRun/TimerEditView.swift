@@ -43,8 +43,7 @@ struct TimerEditView: View {
                 }
                 .toggleStyle(.switch)
             }
-                Text("Timer duration: \(timer.interval.description)")
-            Text(timer.durationDescription)
+           
             
 
         }
