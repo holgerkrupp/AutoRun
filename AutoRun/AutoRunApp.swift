@@ -22,6 +22,8 @@ struct AutoRunApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
+    @Query private var timers: [TimerItem]
 
     var body: some Scene {
         MenuBarExtra{

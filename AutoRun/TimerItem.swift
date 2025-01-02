@@ -24,7 +24,7 @@ final class TimerItem: Codable {
 
     var fileName: URL?
     
-     var nextFireDate: Date?
+    var nextFireDate: Date?
     var interval: TimeInterval = 0.0
     var doesRepeat: Bool = false
     var order: Int? = 0

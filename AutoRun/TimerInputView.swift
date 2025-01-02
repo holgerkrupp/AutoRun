@@ -68,22 +68,4 @@ struct TimerInputView: View {
     }
 }
 
-struct ParentView: View {
-    @State private var timerSeconds: Double = 3665 // Example initial value
-    
-    var body: some View {
-        VStack {
-            TimerInputView(totalSeconds: $timerSeconds)
-            
-            // Display the timer value in the parent view
-            Text("Parent Timer Seconds: \(Int(timerSeconds))")
-        }
-        .padding()
-    }
-}
 
-struct TimerInputView_Previews: PreviewProvider {
-    static var previews: some View {
-        ParentView()
-    }
-}

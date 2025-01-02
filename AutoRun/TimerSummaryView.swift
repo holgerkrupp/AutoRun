@@ -66,9 +66,13 @@ struct TimerSummaryView: View {
                     }else{
                         
                     }
-                    if let fireDate = timer.nextFireDate, fireDate > Date() {
-                        CountdownView(finish: $timer.nextFireDate)
-                        Text(fireDate.formatted(date: .abbreviated, time: .standard))
+                    if let fireDate = timer.timer?.fireDate, fireDate > Date() {
+                        
+                        CountdownView(finish: fireDate )
+                            .help(
+                                Text("Next run: \(fireDate.formatted(date: .abbreviated, time: .standard))")
+                            )
+                        
                     }
                    
 

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CountdownView: View {
     
-    @Binding var finish:Date?
+    //@Binding
+    var finish:Date?
     @State var remaining:Double = 0.0
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var remainingString:String = ""
@@ -32,6 +33,7 @@ struct CountdownView: View {
 }
 
 #Preview {
-    @Previewable @State var finish: Date? = Date(timeIntervalSinceNow: 100.0)
-    CountdownView(finish: $finish)
+    //@Previewable @State
+    var finish: Date? = Date(timeIntervalSinceNow: 100.0)
+    CountdownView(finish: finish)
 }
