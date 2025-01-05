@@ -9,9 +9,13 @@ import Foundation
 import SwiftData
 import AppKit
 
+
+
 @Model
 final class TimerItem: Codable {
-    
+    enum LauchType:Int, Codable {
+        case app, script
+    }
     
     enum TimerError: Error {
         case invalidURL(url: URL?)
@@ -23,6 +27,7 @@ final class TimerItem: Codable {
     var name: String?
 
     var fileName: URL?
+    var launchItem:[LauchType: String]?
     
     var nextFireDate: Date?
     var interval: TimeInterval = 0.0
@@ -67,7 +72,7 @@ final class TimerItem: Codable {
     }
     
     enum CodingKeys: CodingKey{
-        case creationDate, name, active, fileName, fireDate, interval, doesRepeat, order
+        case creationDate, name, active, fileName, fireDate, interval, doesRepeat, order, launchItem
     }
     
     func encode(to encoder: Encoder) throws {
@@ -81,14 +86,15 @@ final class TimerItem: Codable {
         try container.encode(interval, forKey: .interval)
         try container.encode(doesRepeat, forKey: .doesRepeat)
         try container.encode(order, forKey: .order)
-        
+        try container.encode(launchItem, forKey: .launchItem)
+
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         creationDate = try container.decode(Date.self, forKey: .creationDate)
         name = try container.decode(String.self, forKey: .name)
-        
+        launchItem = try container.decode([LauchType: String].self, forKey: .launchItem)
      //   active = try container.decode(Bool.self, forKey: .active)
         fileName = try container.decode(URL.self, forKey: .fileName)
         

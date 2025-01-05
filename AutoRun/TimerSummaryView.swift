@@ -73,6 +73,8 @@ struct TimerSummaryView: View {
                                 Text("Next run: \(fireDate.formatted(date: .abbreviated, time: .standard))")
                             )
                         
+                    }else{
+                        Text("Fire Date: \(timer.timer?.fireDate.formatted(date: .abbreviated, time: .standard) ?? "unknown")")
                     }
                    
 
@@ -94,7 +96,6 @@ struct TimerSummaryView: View {
                         Image(systemName: "trash")
                             .background(rectReader($maxWidth))
                             .frame(minWidth: maxWidth)
-                        // Image(systemName: "star.fill")
                     }
                     .help("Remove this timer")
 

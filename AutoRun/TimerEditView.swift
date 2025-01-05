@@ -36,13 +36,14 @@ struct TimerEditView: View {
                 }
                 Text(timer.fileName?.lastPathComponent ?? "no app selected")
             }
-            HStack{
+           
                 TimerInputView(totalSeconds: $timer.interval)
-                Toggle(isOn: $timer.doesRepeat) {
-                    Label((timer.doesRepeat ? "repeat" : "fire once"), systemImage: (timer.doesRepeat ? "repeat.circle" : "1.circle"))
-                }
-                .toggleStyle(.switch)
+                
+            
+            Toggle(isOn: $timer.doesRepeat) {
+                Label((timer.doesRepeat ? "repeat" : "fire once"), systemImage: (timer.doesRepeat ? "repeat.circle" : "1.circle"))
             }
+            .toggleStyle(.switch)
            
             
 

@@ -411,6 +411,9 @@
         }
       }
     },
+    "Fire Date: %@" : {
+
+    },
     "fire once" : {
       "localizations" : {
         "ar" : {
@@ -700,6 +703,9 @@
           }
         }
       }
+    },
+    "Next run: %@" : {
+
     },
     "no Timers saved" : {
       "localizations" : {

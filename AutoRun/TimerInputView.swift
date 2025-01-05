@@ -16,25 +16,34 @@ struct TimerInputView: View {
                 VStack {
                     Text("Hours")
                     TextField("0", text: $hours)
+                        .frame(width: 100)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .multilineTextAlignment(.center)
                         .onChange(of: hours) { old, new in updateTotalSeconds() }
                 }
-                .padding()
+         
                 
                 // Minutes input
                 VStack {
                     Text("Minutes")
                     TextField("0", text: $minutes)
+                        .frame(width: 100)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .multilineTextAlignment(.center)
                         .onChange(of: minutes) { old, new  in updateTotalSeconds() }
                 }
-                .padding()
+               
                 
                 // Seconds input
                 VStack {
                     Text("Seconds")
                     TextField("0", text: $seconds)
+                        .frame(width: 100)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .multilineTextAlignment(.center) 
                         .onChange(of: seconds) { old, new  in updateTotalSeconds() }
                 }
-                .padding()
+             
                 
                 
             }
@@ -46,6 +55,7 @@ struct TimerInputView: View {
             updateInputFields()
         }
     }
+    
     
     // Helper to calculate total seconds from input fields and update the binding
     private func updateTotalSeconds() {
@@ -69,3 +79,7 @@ struct TimerInputView: View {
 }
 
 
+#Preview {
+    @Previewable @State var seconds = 20.0
+    TimerInputView(totalSeconds: $seconds)
+}

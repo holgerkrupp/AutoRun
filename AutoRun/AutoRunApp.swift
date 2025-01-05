@@ -49,10 +49,17 @@ struct AutoRunApp: App {
             
             
         } label: {
-            
             Image(systemName: "figure.run")
-                
             
+            /*
+            if timers.contains(where: { timer in
+                timer.timer?.isValid == true
+            }){
+                Image(systemName: "figure.run")
+            }else{
+                Image(systemName: "figure.stand")
+            }
+            */
         } .menuBarExtraStyle(.window)
         
         
@@ -63,17 +70,7 @@ struct AutoRunApp: App {
         } defaultValue: {
                 TimerItem()// A new message that your model stores.
             }
-/*
-            if let timer = timer {
-                TimerView(timer: timer)
-                    .modelContainer(sharedModelContainer)
-            }else{
-                let newTimer = TimerItem()
-              
-                TimerView(timer: newTimer)
-                    .modelContainer(sharedModelContainer)
-            }
-           */
+
         }
     }
 
