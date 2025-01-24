@@ -12,7 +12,7 @@ import AppKit
 
 
 @Model
-final class TimerItem: Codable {
+final class TimerItem: Codable, ObservableObject {
     enum LauchType:Int, Codable {
         case app, script
     }
@@ -29,7 +29,7 @@ final class TimerItem: Codable {
     var fileName: URL?
     var launchItem:[LauchType: String]?
     
-    var nextFireDate: Date?
+    @Transient @Published var nextFireDate: Date?
     var interval: TimeInterval = 0.0
     var doesRepeat: Bool = false
     var order: Int? = 0
@@ -134,6 +134,7 @@ final class TimerItem: Codable {
            try? self.fireTimer()
         }
         nextFireDate = timer?.fireDate
+        
         return timer?.isValid ?? false
     }
     
@@ -146,21 +147,21 @@ final class TimerItem: Codable {
                                            configuration: configuration,
                                            completionHandler: nil)
         nextFireDate = timer?.fireDate
+        print ("next FireDate: \(nextFireDate?.formatted() ?? "unknown")")
     }
     
     func calcProgress() -> Double? {
         dump(timer)
         print("calculating progress")
         if timer?.isValid == true {
-            guard let nextDate = timer?.fireDate else {
+            guard (nextFireDate != nil) else {
                 print("nextDate")
                 return nil
             }
 
-            let lastDate = nextDate.addingTimeInterval(-interval)
+            guard let lastDate = nextFireDate?.addingTimeInterval(-interval) else { return nil }
             let now = Date()
             let elapsedTime = now.timeIntervalSince(lastDate)
-            print("calculated: \(elapsedTime.description)")
             return elapsedTime/interval
         }else{
             print("nil")

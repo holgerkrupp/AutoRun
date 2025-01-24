@@ -15,7 +15,7 @@ struct TimerItemList: View {
     @Query private var timers: [TimerItem]
     var body: some View {
         Text("Auto Run")
-            .font(.headline)
+            .font(.title)
         Button("Create new Timer") {
             createNewTimer()
         }.keyboardShortcut("n")

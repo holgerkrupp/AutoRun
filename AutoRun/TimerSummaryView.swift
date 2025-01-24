@@ -15,13 +15,13 @@ struct TimerSummaryView: View {
     
     var body: some View {
         
-        TimerDetailView(timer: $timer, isActive: $isActive)
+        TimerDetailView(timer: timer, isActive: $isActive)
     }
 }
     
     struct TimerDetailView: View {
         @Environment(\.openWindow) var openWindow
-        @Binding var timer:TimerItem
+        @ObservedObject var timer:TimerItem
         @Binding var isActive:Bool
         @State private var maxWidth: CGFloat = .zero
  
@@ -33,13 +33,7 @@ struct TimerSummaryView: View {
                         .foregroundStyle(($isActive.wrappedValue ? .secondary : .primary))
                 }
                 .toggleStyle(.switch)
-                .onAppear(){
-                    Task{
-                        print("Timer isValid \(timer.timer?.isValid.description ?? "nil")")
-                        print("View isActive \($isActive.wrappedValue.description)")
-                        
-                    }
-                }
+
                 .onChange(of: isActive) { oldValue, newValue in
                     if newValue == false{
                         
@@ -51,6 +45,7 @@ struct TimerSummaryView: View {
                         isActive = start
                     }
                 }
+                
                 
                 if let icon = timer.fileIcon
                 {
@@ -66,7 +61,7 @@ struct TimerSummaryView: View {
                     }else{
                         
                     }
-                    if let fireDate = timer.timer?.fireDate, fireDate > Date() {
+                    if let fireDate = timer.nextFireDate{
                         
                         CountdownView(finish: fireDate )
                             .help(
@@ -79,7 +74,7 @@ struct TimerSummaryView: View {
                    
 
                 }else {
-                    Text("Timer invalid")
+                    Text("Timer not running")
                 }
                 HStack{
                     Button("Edit") {
