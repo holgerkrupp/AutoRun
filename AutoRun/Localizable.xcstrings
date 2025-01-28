@@ -175,9 +175,6 @@
         }
       }
     },
-    "Auto Run" : {
-
-    },
     "Auto Run - Development" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -236,6 +233,9 @@
           }
         }
       }
+    },
+    "AutoRun" : {
+
     },
     "Create new Timer" : {
       "localizations" : {
