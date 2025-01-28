@@ -56,8 +56,14 @@ struct TimerEditView: View {
             switch result {
             case .success(let file):
                 print(file.absoluteString)
+                
                 timer.fileName = file.absoluteURL
-            
+                /*
+                let icon =  NSWorkspace.shared.icon(forFile: file.absoluteURL.absoluteString)
+                
+                timer.icon = icon.tiffRepresentation(using: .jpeg, factor: 0.8)
+                
+                */
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -68,6 +74,7 @@ struct TimerEditView: View {
         timer.interval = Double(seconds + minutes * 60 + hours * 60 * 60)
     }
     
+    /*
     private func rectReader(_ binding: Binding<CGFloat>) -> some View {
         return GeometryReader { gp -> Color in
             DispatchQueue.main.async {
@@ -76,7 +83,7 @@ struct TimerEditView: View {
             return Color.clear
         }
     }
-    
+    */
 }
 
 #Preview {

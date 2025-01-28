@@ -41,6 +41,7 @@ final class TimerItem: Codable, ObservableObject {
             return nil
         }
     }
+    var icon: Data?
     
     @Transient @Published var timer: Timer?
     @Transient  var progress:Double? {
@@ -141,13 +142,26 @@ final class TimerItem: Codable, ObservableObject {
     func fireTimer() throws{
         guard let fileName = fileName else { throw TimerError.invalidURL(url: fileName) }
 
-        print("Timer fired!")
+        print("Timer fired at \(Date().formatted())")
+        do{
+            try openApp()
+        }catch{
+            print("timer failed to open the app")
+        }
+     
+        
+        nextFireDate = Date().addingTimeInterval(timer?.timeInterval ?? self.interval)
+        
+        
+        print ("next FireDate: \(nextFireDate?.formatted() ?? "unknown")")
+    }
+    
+    func openApp() throws{
+        guard let fileName = fileName else { throw TimerError.invalidURL(url: fileName) }
         let configuration = NSWorkspace.OpenConfiguration()
         NSWorkspace.shared.openApplication(at: fileName,
                                            configuration: configuration,
                                            completionHandler: nil)
-        nextFireDate = timer?.fireDate
-        print ("next FireDate: \(nextFireDate?.formatted() ?? "unknown")")
     }
     
     func calcProgress() -> Double? {

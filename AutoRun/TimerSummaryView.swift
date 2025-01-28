@@ -46,11 +46,20 @@ struct TimerSummaryView: View {
                     }
                 }
                 
-                
+                /*
                 if let icon = timer.fileIcon
                 {
                     Image(nsImage: icon)
                 }
+                if let imagedata = timer.icon{
+                    if let icon2 = NSImage(data: imagedata)
+                    {
+                        Image(nsImage: icon2)
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                    }
+                }
+                 */
                 Text($timer.name.wrappedValue ?? "")
                     .font(.headline)
                 Text(timer.fileName?.lastPathComponent ?? "no app selected")
@@ -63,7 +72,7 @@ struct TimerSummaryView: View {
                     }
                     if let fireDate = timer.nextFireDate{
                         
-                        CountdownView(finish: fireDate )
+                        CountdownView(duration:timer.interval, finish: fireDate)
                             .help(
                                 Text("Next run: \(fireDate.formatted(date: .abbreviated, time: .standard))")
                             )
@@ -77,6 +86,9 @@ struct TimerSummaryView: View {
                     Text("Timer not running")
                 }
                 HStack{
+                    Button("Run now") {
+                       try? timer.openApp()
+                    }
                     Button("Edit") {
                         NSApplication.shared.activate(ignoringOtherApps: true)
                         openWindow(value: timer)

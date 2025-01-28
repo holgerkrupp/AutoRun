@@ -16,6 +16,7 @@ struct TimerItemList: View {
     var body: some View {
         Text("Auto Run")
             .font(.title)
+            .padding([.top])
         Button("Create new Timer") {
             createNewTimer()
         }.keyboardShortcut("n")
