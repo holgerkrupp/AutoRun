@@ -15,6 +15,7 @@
 /* Begin PBXFileReference section */
 		4851BB302D43DD200081CFA1 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4851BB322D43DD200081CFA1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4851BB972D4A501E0081CFA1 /* mac-app-store-badge.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "mac-app-store-badge.svg"; sourceTree = "<group>"; };
 		48A18EBD2D2429610033A3CE /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = AutoRun/Localizable.xcstrings; sourceTree = "<group>"; };
 		48D4E2902D0EEFFF0019B89F /* AutoRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -43,6 +44,7 @@
 			children = (
 				48A18EBD2D2429610033A3CE /* Localizable.xcstrings */,
 				4851BB302D43DD200081CFA1 /* LICENSE */,
+				4851BB972D4A501E0081CFA1 /* mac-app-store-badge.svg */,
 				4851BB322D43DD200081CFA1 /* README.md */,
 				48D4E2922D0EEFFF0019B89F /* AutoRun */,
 				48D4E2912D0EEFFF0019B89F /* Products */,
