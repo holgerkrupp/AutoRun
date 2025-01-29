@@ -35,6 +35,7 @@ struct TimerSummaryView: View {
                 .toggleStyle(.switch)
 
                 .onChange(of: isActive) { oldValue, newValue in
+                    
                     if newValue == false{
                         
                         timer.stopTimer()
@@ -62,8 +63,16 @@ struct TimerSummaryView: View {
                  */
                 Text($timer.name.wrappedValue ?? "")
                     .font(.headline)
-                Text(timer.fileName?.lastPathComponent ?? "no app selected")
-                    .font(.body)
+                switch timer.launchType {
+                case .app:
+                    Text(URL(string: timer.launchValue)?.lastPathComponent ?? "")
+                        .font(.body)
+                case .script:
+                    Text("running shell script")
+                        .font(.body)
+                }
+               
+                    
                 if $isActive.wrappedValue == true{
                     if timer.doesRepeat{
                         Text("App is launched every \(timer.durationDescription)")
@@ -85,9 +94,13 @@ struct TimerSummaryView: View {
                 }else {
                     Text("Timer not running")
                 }
+                
+                
+                
+                
                 HStack{
                     Button("Run now") {
-                       try? timer.openApp()
+                        try? timer.launch()
                     }
                     Button("Edit") {
                         NSApplication.shared.activate(ignoringOtherApps: true)
@@ -109,6 +122,10 @@ struct TimerSummaryView: View {
                     
                     
                 }
+            }
+            .onReceive(timer.$isActive) { active in
+               
+                isActive = active
             }
         }
         

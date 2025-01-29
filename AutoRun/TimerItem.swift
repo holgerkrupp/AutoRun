@@ -13,12 +13,24 @@ import AppKit
 
 @Model
 final class TimerItem: Codable, ObservableObject {
-    enum LauchType:Int, Codable {
+    enum LaunchType:Int, Codable, CaseIterable, Identifiable, CustomStringConvertible {
+        var id: Self { self }
+        
+        var description: String {
+            switch self {
+            case .app:
+                "Launch App"
+            case .script:
+                "Run Script"
+            }
+        }
+        
         case app, script
     }
     
     enum TimerError: Error {
         case invalidURL(url: URL?)
+        case invalidItem
         
     }
     
@@ -27,8 +39,10 @@ final class TimerItem: Codable, ObservableObject {
     var name: String?
 
     var fileName: URL?
-    var launchItem:[LauchType: String]?
+    var launchType: LaunchType = LaunchType.app
+    var launchValue: String = ""
     
+    @Transient @Published var isActive: Bool = false
     @Transient @Published var nextFireDate: Date?
     var interval: TimeInterval = 0.0
     var doesRepeat: Bool = false
@@ -44,19 +58,7 @@ final class TimerItem: Codable, ObservableObject {
     var icon: Data?
     
     @Transient @Published var timer: Timer?
-    @Transient  var progress:Double? {
-        if timer?.isValid == true {
-            guard let nextDate = timer?.fireDate else { return nil }
-          //  guard let interval = interval else { return nil }
-            let lastDate = nextDate.addingTimeInterval(-interval)
-            let now = Date()
-            let elapsedTime = now.timeIntervalSince(lastDate)
-            return elapsedTime/interval
-        }else{
-            return nil
-        }
-    }
-    
+
     
     @Transient var durationDescription:String {
         let formatter = DateComponentsFormatter()
@@ -73,7 +75,7 @@ final class TimerItem: Codable, ObservableObject {
     }
     
     enum CodingKeys: CodingKey{
-        case creationDate, name, active, fileName, fireDate, interval, doesRepeat, order, launchItem
+        case creationDate, name, active, fileName, fireDate, interval, doesRepeat, order, launchItem, launchType
     }
     
     func encode(to encoder: Encoder) throws {
@@ -87,7 +89,9 @@ final class TimerItem: Codable, ObservableObject {
         try container.encode(interval, forKey: .interval)
         try container.encode(doesRepeat, forKey: .doesRepeat)
         try container.encode(order, forKey: .order)
-        try container.encode(launchItem, forKey: .launchItem)
+        
+        try container.encode(launchValue, forKey: .launchItem)
+        try container.encode(launchType, forKey: .launchType)
 
     }
     
@@ -95,7 +99,8 @@ final class TimerItem: Codable, ObservableObject {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         creationDate = try container.decode(Date.self, forKey: .creationDate)
         name = try container.decode(String.self, forKey: .name)
-        launchItem = try container.decode([LauchType: String].self, forKey: .launchItem)
+        launchValue = try container.decode(String.self, forKey: .launchItem)
+        launchType = try container.decode(LaunchType.self, forKey: .launchType)
      //   active = try container.decode(Bool.self, forKey: .active)
         fileName = try container.decode(URL.self, forKey: .fileName)
         
@@ -125,43 +130,79 @@ final class TimerItem: Codable, ObservableObject {
     func stopTimer(){
         print("timer invalidate")
         timer?.invalidate()
+        nextFireDate = nil
+        isActive = false
     }
     
     func startTimer() -> Bool{
         print("timer start")
-        //guard let interval = interval,
-        guard let _ = fileName else { print("error - no file to launch "); return false }
+
+        if launchValue == "", let fileName{
+            launchValue = fileName.absoluteString
+        }
+        guard launchValue != "" else { print("error - nothing to launch "); return false }
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: doesRepeat) { timer in
            try? self.fireTimer()
+            
         }
         nextFireDate = timer?.fireDate
-        
+        isActive = timer?.isValid ?? false
         return timer?.isValid ?? false
     }
     
     func fireTimer() throws{
-        guard let fileName = fileName else { throw TimerError.invalidURL(url: fileName) }
-
+       
+     
         print("Timer fired at \(Date().formatted())")
-        do{
-            try openApp()
-        }catch{
-            print("timer failed to open the app")
-        }
+        try launch() 
+     
      
         
         nextFireDate = Date().addingTimeInterval(timer?.timeInterval ?? self.interval)
-        
+        if doesRepeat == false { stopTimer() }
         
         print ("next FireDate: \(nextFireDate?.formatted() ?? "unknown")")
     }
     
-    func openApp() throws{
+    
+    func openApp() throws {
         guard let fileName = fileName else { throw TimerError.invalidURL(url: fileName) }
+        try openApp(fileName: fileName)
+
+    }
+    
+    
+    func openApp(fileName: URL) throws{
+      //  guard let fileName = fileName else { throw TimerError.invalidURL(url: fileName) }
         let configuration = NSWorkspace.OpenConfiguration()
         NSWorkspace.shared.openApplication(at: fileName,
                                            configuration: configuration,
                                            completionHandler: nil)
+    }
+    
+    func launch() throws {
+        
+        switch launchType {
+        case .app:
+            guard let url = URL(string: launchValue) else { throw TimerError.invalidItem }
+            try openApp(fileName: url)
+        case .script:
+            try runScript(script: launchValue)
+      
+        }
+    }
+    
+    func runScript(script: String) throws{
+        let task = Process()
+        let pipe = Pipe()
+        
+        task.standardOutput = pipe
+        task.standardError = nil
+        task.arguments = ["-c", script]
+        task.executableURL = URL(fileURLWithPath: "/bin/zsh")
+        task.standardInput = nil
+        
+        try task.run()
     }
     
     func calcProgress() -> Double? {

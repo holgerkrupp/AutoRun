@@ -29,13 +29,33 @@ struct TimerEditView: View {
                 TextField("Set custom name" , text: $timer.name.toUnwrapped(defaultValue: ""))
                     .textFieldStyle(.roundedBorder)
                     .help("Set custom name" )
-            HStack{
-                Button("Select App") {
-                    importing = true
+            
+            Picker("", selection: $timer.launchType) {
+               
+                ForEach(TimerItem.LaunchType.allCases) { option in
+                    
+                    Text(String(describing: option))
+                        .tag(option)
                     
                 }
-                Text(timer.fileName?.lastPathComponent ?? "no app selected")
             }
+            .pickerStyle(.segmented)
+            
+            switch timer.launchType{
+                
+            case .app:
+                HStack{
+                    Button("Select App") {
+                        importing = true
+                        
+                    }
+                    Text(timer.fileName?.lastPathComponent ?? "no app selected")
+                }
+            case .script:
+                HighlightrTextView(text: $timer.launchValue, language: "bash")
+          
+            }
+          
            
                 TimerInputView(totalSeconds: $timer.interval)
                 
@@ -57,7 +77,8 @@ struct TimerEditView: View {
             case .success(let file):
                 print(file.absoluteString)
                 
-                timer.fileName = file.absoluteURL
+             //   timer.fileName = file.absoluteURL
+                timer.launchValue = file.absoluteString
                 /*
                 let icon =  NSWorkspace.shared.icon(forFile: file.absoluteURL.absoluteString)
                 

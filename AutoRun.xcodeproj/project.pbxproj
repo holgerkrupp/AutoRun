@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4851BB422D43DD200081CFA1 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4851BB302D43DD200081CFA1 /* LICENSE */; };
 		4851BB442D43DD200081CFA1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4851BB322D43DD200081CFA1 /* README.md */; };
-		48A18EBE2D2429610033A3CE /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 48A18EBD2D2429610033A3CE /* Localizable.xcstrings */; };
+		4851BB9C2D4A51310081CFA1 /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 4851BB9B2D4A51310081CFA1 /* Highlightr */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4851BB9C2D4A51310081CFA1 /* Highlightr in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +80,7 @@
 			);
 			name = AutoRun;
 			packageProductDependencies = (
+				4851BB9B2D4A51310081CFA1 /* Highlightr */,
 			);
 			productName = AutoRun;
 			productReference = 48D4E2902D0EEFFF0019B89F /* AutoRun.app */;
@@ -92,7 +94,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					48D4E28F2D0EEFFF0019B89F = {
 						CreatedOnToolsVersion = 16.1;
@@ -108,6 +110,9 @@
 			);
 			mainGroup = 48D4E2872D0EEFFF0019B89F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4851BB9A2D4A51310081CFA1 /* XCRemoteSwiftPackageReference "Highlightr" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 48D4E2912D0EEFFF0019B89F /* Products */;
 			projectDirPath = "";
@@ -125,7 +130,6 @@
 			files = (
 				4851BB422D43DD200081CFA1 /* LICENSE in Resources */,
 				4851BB442D43DD200081CFA1 /* README.md in Resources */,
-				48A18EBE2D2429610033A3CE /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +180,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -240,6 +245,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -270,7 +276,8 @@
 				CODE_SIGN_ENTITLEMENTS = AutoRun/AutoRun.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"AutoRun/Preview Content\"";
 				DEVELOPMENT_TEAM = 46D3VYP253;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -284,7 +291,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.holgerkrupp.AutoRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -300,7 +307,8 @@
 				CODE_SIGN_ENTITLEMENTS = AutoRun/AutoRun.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"AutoRun/Preview Content\"";
 				DEVELOPMENT_TEAM = 46D3VYP253;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -314,7 +322,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.holgerkrupp.AutoRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -344,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4851BB9A2D4A51310081CFA1 /* XCRemoteSwiftPackageReference "Highlightr" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raspu/Highlightr";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4851BB9B2D4A51310081CFA1 /* Highlightr */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4851BB9A2D4A51310081CFA1 /* XCRemoteSwiftPackageReference "Highlightr" */;
+			productName = Highlightr;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48D4E2882D0EEFFF0019B89F /* Project object */;
 }

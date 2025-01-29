@@ -18,7 +18,8 @@ struct CountdownView: View {
     
     var body: some View {
         HStack{
-            ProgressView(value: progress)
+            
+            ProgressView(value: max(progress, 0))
                 .progressViewStyle(LinearProgressViewStyle())
             //  .scaleEffect(x: 1, y: 2, anchor: .center) // Makes the bar thicker
                 .padding(.horizontal, 20)
@@ -33,13 +34,14 @@ struct CountdownView: View {
                     
                     remainingString = formatter.string(from: TimeInterval(remaining))!
                     
-                    
+                    //print("remaining: \(remaining.formatted()) - progress: \(progress.formatted())")
                 }
         }
     }
     
     private var progress: Double {
         guard let duration = duration, duration > 0 else { return 0.0 }
+        
         return 1.0 - (remaining / duration)
     }
 }

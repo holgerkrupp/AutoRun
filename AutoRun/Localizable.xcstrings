@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "0" : {
       "localizations" : {
         "ar" : {
@@ -999,6 +1002,9 @@
       }
     },
     "Run now" : {
+
+    },
+    "running shell script" : {
 
     },
     "Seconds" : {
