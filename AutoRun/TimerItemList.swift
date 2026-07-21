@@ -28,6 +28,7 @@ struct TimerItemList: View {
                 
                 TimerSummaryView(timer: timer, isActive: timer.timer?.isValid ?? false)
                     .onAppear(){
+                        timer.reconcileSystemScheduleState()
                         if timer.launchType == .app {
                             // Version 1.0 was saving the file to launch in the
                             timer.launchValue = timer.fileName?.absoluteString ?? ""

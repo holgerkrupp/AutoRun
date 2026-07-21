@@ -12,6 +12,7 @@ struct CountdownView: View {
     //@Binding
     var duration:TimeInterval?
     var finish:Date?
+    var repeats: Bool = false
     @State var remaining:Double = 0.0
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var remainingString:String = ""
@@ -26,7 +27,7 @@ struct CountdownView: View {
             Text(remainingString)
                 .onReceive(timer) { time in
                     
-                    remaining = finish?.timeIntervalSince(Date()) ?? 0.0
+                    remaining = remainingTime(until: finish, from: Date())
                     
                     let formatter = DateComponentsFormatter()
                     formatter.allowedUnits = [.hour, .minute, .second]
@@ -43,6 +44,17 @@ struct CountdownView: View {
         guard let duration = duration, duration > 0 else { return 0.0 }
         
         return 1.0 - (remaining / duration)
+    }
+
+    private func remainingTime(until finish: Date?, from date: Date) -> Double {
+        guard let finish else { return 0.0 }
+        var remaining = finish.timeIntervalSince(date)
+        guard repeats, let duration, duration > 0 else { return remaining }
+
+        while remaining <= 0 {
+            remaining += duration
+        }
+        return remaining
     }
 }
 

@@ -24,6 +24,7 @@ struct TimerSummaryView: View {
         @ObservedObject var timer:TimerItem
         @Binding var isActive:Bool
         @State private var maxWidth: CGFloat = .zero
+        private let clock = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
  
         var body: some View {
             VStack{
@@ -76,12 +77,17 @@ struct TimerSummaryView: View {
                 if $isActive.wrappedValue == true{
                     if timer.doesRepeat{
                         Text("App is launched every \(timer.durationDescription)")
+                        if timer.isSystemScheduled {
+                            Text("Scheduled by macOS launchd")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }else{
                         
                     }
                     if let fireDate = timer.nextFireDate{
                         
-                        CountdownView(duration:timer.interval, finish: fireDate)
+                        CountdownView(duration:timer.interval, finish: fireDate, repeats: timer.isSystemScheduled)
                             .help(
                                 Text("Next run: \(fireDate.formatted(date: .abbreviated, time: .standard))")
                             )
@@ -126,6 +132,13 @@ struct TimerSummaryView: View {
             .onReceive(timer.$isActive) { active in
                
                 isActive = active
+            }
+            .onReceive(clock) { date in
+                guard timer.isSystemScheduled,
+                      let nextFireDate = timer.nextFireDate,
+                      nextFireDate <= date else { return }
+
+                timer.nextFireDate = timer.nextSystemFireDate(after: date)
             }
         }
         
