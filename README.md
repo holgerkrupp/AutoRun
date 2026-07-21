@@ -5,3 +5,8 @@ This Menu Bar App helps you open programms regularly. it is designed to run apps
 
 the app is now available in the [Mac App Store](https://apps.apple.com/de/app/autorun-run-apps/id6739644500?l=en-GB&mt=12)
 <a href="https://apps.apple.com/de/app/autorun-run-apps/id6739644500?l=en-GB&mt=12"><img src="mac-app-store-badge.svg" alt="Mac App Store" height="50"/></a>
+
+
+## Scheduling
+
+AutoRun uses macOS LaunchAgents (`launchd`) for repeating timers when possible. This lets macOS own the recurring schedule instead of relying on an in-app countdown timer. One-shot timers still use AutoRun's in-app timer because `launchd` is designed around persistent jobs rather than single relative countdowns.
