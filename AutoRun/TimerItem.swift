@@ -59,6 +59,10 @@ final class TimerItem: Codable, ObservableObject {
     
     @Transient @Published var timer: Timer?
 
+    @Transient var isSystemScheduled: Bool {
+        isActive && timer == nil && LaunchAgentScheduler.isSupported(timer: self)
+    }
+
     
     @Transient var durationDescription:String {
         let formatter = DateComponentsFormatter()
@@ -112,14 +116,14 @@ final class TimerItem: Codable, ObservableObject {
     }
     
     func delete(){
-        timer?.invalidate()
+        stopTimer()
         if let modelContext {
             modelContext.delete(self)
         }
     }
     
     func startStop(){
-        if let timer, timer.isValid == true{
+        if isActive == true || timer?.isValid == true{
             stopTimer()
           
         }else{
@@ -130,6 +134,7 @@ final class TimerItem: Codable, ObservableObject {
     func stopTimer(){
         print("timer invalidate")
         timer?.invalidate()
+        LaunchAgentScheduler.uninstall(timer: self)
         nextFireDate = nil
         isActive = false
     }
@@ -141,6 +146,17 @@ final class TimerItem: Codable, ObservableObject {
             launchValue = fileName.absoluteString
         }
         guard launchValue != "" else { print("error - nothing to launch "); return false }
+        if LaunchAgentScheduler.isSupported(timer: self) {
+            do {
+                try LaunchAgentScheduler.install(timer: self)
+                nextFireDate = Date().addingTimeInterval(interval)
+                isActive = true
+                return true
+            } catch {
+                print("launchd scheduling failed; falling back to in-app timer: \(error)")
+            }
+        }
+
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: doesRepeat) { timer in
            try? self.fireTimer()
             
@@ -208,6 +224,13 @@ final class TimerItem: Codable, ObservableObject {
     func calcProgress() -> Double? {
         dump(timer)
         print("calculating progress")
+        if isActive == true && timer == nil {
+            guard let nextFireDate else { return nil }
+            let lastDate = nextFireDate.addingTimeInterval(-interval)
+            let elapsedTime = Date().timeIntervalSince(lastDate)
+            return elapsedTime/interval
+        }
+
         if timer?.isValid == true {
             guard (nextFireDate != nil) else {
                 print("nextDate")

@@ -76,6 +76,11 @@ struct TimerSummaryView: View {
                 if $isActive.wrappedValue == true{
                     if timer.doesRepeat{
                         Text("App is launched every \(timer.durationDescription)")
+                        if timer.isSystemScheduled {
+                            Text("Scheduled by macOS launchd")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }else{
                         
                     }
