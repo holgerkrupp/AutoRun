@@ -26,7 +26,7 @@ struct TimerItemList: View {
             ForEach(timers.sorted(by: {$0.order ?? 0 < $1.order ?? 0})) { timer in
                
                 
-                TimerSummaryView(timer: timer, isActive: timer.timer?.isValid ?? false)
+                TimerSummaryView(timer: timer, isActive: timer.isActive)
                     .onAppear(){
                         timer.reconcileSystemScheduleState()
                         if timer.launchType == .app {

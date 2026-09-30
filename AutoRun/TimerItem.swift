@@ -261,7 +261,7 @@ final class TimerItem: Codable, ObservableObject {
     func calcProgress() -> Double? {
         dump(timer)
         print("calculating progress")
-        if isActive == true && timer == nil {
+        if isSystemScheduled {
             guard let nextFireDate else { return nil }
             let lastDate = nextFireDate.addingTimeInterval(-interval)
             let elapsedTime = Date().timeIntervalSince(lastDate)
@@ -286,5 +286,3 @@ final class TimerItem: Codable, ObservableObject {
     
     
 }
-
-

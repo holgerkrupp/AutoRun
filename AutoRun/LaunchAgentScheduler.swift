@@ -42,23 +42,22 @@ enum LaunchAgentScheduler {
         )
         try data.write(to: plistURL, options: .atomic)
 
-        _ = runLaunchctl(arguments: ["bootout", "gui/\(getuid())", plistURL.path], allowFailure: true)
+        _ = try? runLaunchctl(arguments: ["bootout", "gui/\(getuid())", plistURL.path], allowFailure: true)
         try runLaunchctl(arguments: ["bootstrap", "gui/\(getuid())", plistURL.path])
         try runLaunchctl(arguments: ["enable", "gui/\(getuid())/\(label(for: timer))"])
     }
 
     static func uninstall(timer: TimerItem) {
         let plistURL = plistURL(for: timer)
-        _ = runLaunchctl(arguments: ["bootout", "gui/\(getuid())", plistURL.path], allowFailure: true)
+        _ = try? runLaunchctl(arguments: ["bootout", "gui/\(getuid())", plistURL.path], allowFailure: true)
         try? FileManager.default.removeItem(at: plistURL)
     }
 
     static func isInstalled(timer: TimerItem) -> Bool {
         FileManager.default.fileExists(atPath: plistURL(for: timer).path)
     }
-
     static func label(for timer: TimerItem) -> String {
-        let identifier = timer.persistentModelID.id.description
+        let identifier = String(describing: timer.persistentModelID)
             .replacingOccurrences(of: "[^A-Za-z0-9.-]", with: "-", options: .regularExpression)
         return "de.holgerkrupp.AutoRun.timer.\(identifier)"
     }
