@@ -47,6 +47,8 @@ final class TimerItem: Codable, ObservableObject {
     var interval: TimeInterval = 0.0
     var doesRepeat: Bool = false
     var order: Int? = 0
+    var isSystemScheduleEnabled: Bool = false
+    var systemScheduleStartDate: Date?
     
     @Transient var fileIcon: NSImage? {
         if let fileString = fileName?.absoluteString{
@@ -60,7 +62,7 @@ final class TimerItem: Codable, ObservableObject {
     @Transient @Published var timer: Timer?
 
     @Transient var isSystemScheduled: Bool {
-        isActive && timer == nil && LaunchAgentScheduler.isSupported(timer: self)
+        isSystemScheduleEnabled && isActive && timer == nil && LaunchAgentScheduler.isSupported(timer: self)
     }
 
     
@@ -79,7 +81,7 @@ final class TimerItem: Codable, ObservableObject {
     }
     
     enum CodingKeys: CodingKey{
-        case creationDate, name, active, fileName, fireDate, interval, doesRepeat, order, launchItem, launchType
+        case creationDate, name, active, fileName, fireDate, interval, doesRepeat, order, launchItem, launchType, isSystemScheduleEnabled, systemScheduleStartDate
     }
     
     func encode(to encoder: Encoder) throws {
@@ -96,6 +98,8 @@ final class TimerItem: Codable, ObservableObject {
         
         try container.encode(launchValue, forKey: .launchItem)
         try container.encode(launchType, forKey: .launchType)
+        try container.encode(isSystemScheduleEnabled, forKey: .isSystemScheduleEnabled)
+        try container.encode(systemScheduleStartDate, forKey: .systemScheduleStartDate)
 
     }
     
@@ -113,6 +117,8 @@ final class TimerItem: Codable, ObservableObject {
         
         doesRepeat = try container.decode(Bool.self, forKey: .doesRepeat)
         order = try container.decode(Int.self, forKey: .order)
+        isSystemScheduleEnabled = try container.decodeIfPresent(Bool.self, forKey: .isSystemScheduleEnabled) ?? false
+        systemScheduleStartDate = try container.decodeIfPresent(Date.self, forKey: .systemScheduleStartDate)
     }
     
     func delete(){
@@ -135,6 +141,8 @@ final class TimerItem: Codable, ObservableObject {
         print("timer invalidate")
         timer?.invalidate()
         LaunchAgentScheduler.uninstall(timer: self)
+        isSystemScheduleEnabled = false
+        systemScheduleStartDate = nil
         nextFireDate = nil
         isActive = false
     }
@@ -149,11 +157,15 @@ final class TimerItem: Codable, ObservableObject {
         if LaunchAgentScheduler.isSupported(timer: self) {
             do {
                 try LaunchAgentScheduler.install(timer: self)
-                nextFireDate = Date().addingTimeInterval(interval)
+                systemScheduleStartDate = Date()
+                isSystemScheduleEnabled = true
+                nextFireDate = nextSystemFireDate()
                 isActive = true
                 return true
             } catch {
                 print("launchd scheduling failed; falling back to in-app timer: \(error)")
+                isSystemScheduleEnabled = false
+                systemScheduleStartDate = nil
             }
         }
 
@@ -164,6 +176,31 @@ final class TimerItem: Codable, ObservableObject {
         nextFireDate = timer?.fireDate
         isActive = timer?.isValid ?? false
         return timer?.isValid ?? false
+    }
+
+    func reconcileSystemScheduleState(){
+        guard isSystemScheduleEnabled else { return }
+
+        if LaunchAgentScheduler.isSupported(timer: self), LaunchAgentScheduler.isInstalled(timer: self) {
+            timer?.invalidate()
+            timer = nil
+            isActive = true
+            nextFireDate = nextSystemFireDate()
+        } else {
+            isSystemScheduleEnabled = false
+            systemScheduleStartDate = nil
+            nextFireDate = nil
+            isActive = false
+        }
+    }
+
+    func nextSystemFireDate(after date: Date = Date()) -> Date? {
+        guard let systemScheduleStartDate, interval > 0 else { return nil }
+        let firstFireDate = systemScheduleStartDate.addingTimeInterval(interval)
+        guard firstFireDate <= date else { return firstFireDate }
+
+        let elapsedIntervals = floor(date.timeIntervalSince(firstFireDate) / interval) + 1
+        return firstFireDate.addingTimeInterval(elapsedIntervals * interval)
     }
     
     func fireTimer() throws{
@@ -224,7 +261,7 @@ final class TimerItem: Codable, ObservableObject {
     func calcProgress() -> Double? {
         dump(timer)
         print("calculating progress")
-        if isActive == true && timer == nil {
+        if isSystemScheduled {
             guard let nextFireDate else { return nil }
             let lastDate = nextFireDate.addingTimeInterval(-interval)
             let elapsedTime = Date().timeIntervalSince(lastDate)
@@ -249,5 +286,3 @@ final class TimerItem: Codable, ObservableObject {
     
     
 }
-
-
