@@ -2,7 +2,75 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "%lld active" : {
 
+    },
+    "%lld timer%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld timer%2$@"
+          }
+        }
+      }
     },
     "0" : {
       "localizations" : {
@@ -63,6 +131,7 @@
       }
     },
     "active" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -120,7 +189,20 @@
         }
       }
     },
+    "Active" : {
+
+    },
+    "Allow companion runs" : {
+
+    },
+    "Allow in System Settings" : {
+
+    },
+    "App" : {
+
+    },
     "App is launched every %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -177,6 +259,15 @@
           }
         }
       }
+    },
+    "App Timer" : {
+
+    },
+    "Armed" : {
+
+    },
+    "Attention" : {
+
     },
     "Auto Run - Development" : {
       "extractionState" : "stale",
@@ -237,10 +328,87 @@
         }
       }
     },
+    "Automations" : {
+
+    },
     "AutoRun" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AutoRun"
+          }
+        }
+      }
+    },
+    "AutoRun, no active timers" : {
+
+    },
+    "AutoRun, timers active" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Choose an app before running this timer." : {
+
+    },
+    "Choose an automation" : {
+
+    },
+    "Configuration" : {
 
     },
     "Create new Timer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -297,6 +465,21 @@
           }
         }
       }
+    },
+    "Create your first timer to launch an app or run a script on schedule." : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete %@?" : {
+
+    },
+    "Delete Timer" : {
+
+    },
+    "Done" : {
+
     },
     "Edit" : {
       "localizations" : {
@@ -414,10 +597,70 @@
         }
       }
     },
-    "Fire Date: %@" : {
+    "Enter a shell script before running this timer." : {
 
     },
+    "Fire Date: %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "تاريخ الحريق: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Branddatum: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Fecha del incendio: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Date d'incendie : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Data dell'incendio: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "火災発生日：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "발사 날짜: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Дата пожежі: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "火灾日期：%@"
+          }
+        }
+      }
+    },
     "fire once" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -476,6 +719,7 @@
       }
     },
     "Hours" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -533,7 +777,14 @@
         }
       }
     },
+    "iCloud is unavailable. Check the iCloud account and try again." : {
+
+    },
+    "Idle" : {
+
+    },
     "inactive" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -590,6 +841,15 @@
           }
         }
       }
+    },
+    "Last run %@" : {
+
+    },
+    "Last update (session.lastActivityAt, style: .relative)" : {
+
+    },
+    "Launch apps and run scripts on a schedule—right from the menu bar." : {
+
     },
     "Launch at Login" : {
       "localizations" : {
@@ -649,7 +909,14 @@
         }
       }
     },
+    "Launches an approved Mac application." : {
+
+    },
+    "Macs" : {
+
+    },
     "Minutes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -707,10 +974,72 @@
         }
       }
     },
+    "New Timer" : {
+
+    },
     "Next run: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "التشغيل التالي: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Nächster Lauf: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Siguiente ejecución: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Prochaine exécution : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Esecuzione successiva: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "次に走る：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "다음 실행: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Наступний запуск: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "下一次运行%@"
+          }
+        }
+      }
+    },
+    "No app selected" : {
 
     },
     "no Timers saved" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -767,6 +1096,12 @@
           }
         }
       }
+    },
+    "No timers yet" : {
+
+    },
+    "Only safe metadata is shared. The script source and local file path stay on this Mac." : {
+
     },
     "Parent Timer Seconds: %lld" : {
       "extractionState" : "stale",
@@ -827,6 +1162,9 @@
         }
       }
     },
+    "Quick set" : {
+
+    },
     "Quit" : {
       "localizations" : {
         "ar" : {
@@ -884,6 +1222,18 @@
           }
         }
       }
+    },
+    "Recent Sessions" : {
+
+    },
+    "Remote Access" : {
+
+    },
+    "Remote access is opt-in per timer. Published metadata never contains script source or local paths." : {
+
+    },
+    "Remote execution is off by default for existing timers." : {
+
     },
     "Remove this timer" : {
       "localizations" : {
@@ -944,6 +1294,7 @@
       }
     },
     "repeat" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1001,13 +1352,146 @@
         }
       }
     },
+    "Repeats automatically" : {
+
+    },
     "Run now" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "تشغيل الآن"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Jetzt starten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Corre ahora"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Cours maintenant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Corri ora"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "今すぐ走れ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "지금 실행"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Тікай!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "立即运行"
+          }
+        }
+      }
+    },
+    "Run Now" : {
+
+    },
+    "Run on Mac" : {
 
     },
     "running shell script" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "تشغيل البرنامج النصي shell"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Shell-Skript ausführen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ejecutar script de shell"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Exécution d'un script shell"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "esecuzione di uno script di shell"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "シェルスクリプトを実行する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "셸 스크립트 실행"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "запущений скрипт оболонки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "运行 shell 脚本"
+          }
+        }
+      }
+    },
+    "Runs an approved script stored on the Mac." : {
+
+    },
+    "Runs once" : {
+
+    },
+    "Schedule" : {
+
+    },
+    "Script Timer" : {
 
     },
     "Seconds" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1064,6 +1548,12 @@
           }
         }
       }
+    },
+    "Select a Mac and a remotely enabled automation." : {
+
+    },
+    "Select an available Mac first." : {
+
     },
     "Select App" : {
       "localizations" : {
@@ -1123,6 +1613,12 @@
         }
       }
     },
+    "Session" : {
+
+    },
+    "Set a duration greater than zero." : {
+
+    },
     "Set custom name" : {
       "localizations" : {
         "ar" : {
@@ -1180,6 +1676,27 @@
           }
         }
       }
+    },
+    "Shell Script" : {
+
+    },
+    "Show as a Watch quick action" : {
+
+    },
+    "Start timer" : {
+
+    },
+    "Stop timer" : {
+
+    },
+    "This action cannot be undone." : {
+
+    },
+    "Time remaining" : {
+
+    },
+    "Timer active" : {
+
     },
     "Timer invalid" : {
       "extractionState" : "stale",
@@ -1241,7 +1758,63 @@
       }
     },
     "Timer not running" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "المؤقت لا يعمل"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Timer läuft nicht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "El temporizador no funciona"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "La minuterie ne fonctionne pas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Il timer non funziona"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "タイマーが作動しない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "타이머가 실행되지 않음"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Таймер не працює"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "计时器不运行"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

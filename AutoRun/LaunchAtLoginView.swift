@@ -1,54 +1,73 @@
+#if os(macOS)
 //
 //  LaunchAtLoginView.swift
-//  SeconClock2
+//  AutoRun
 //
 //  Created by Holger Krupp on 17.08.23.
 //
 
-import SwiftUI
 import ServiceManagement
+import SwiftUI
 
 struct LaunchAtLoginView: View {
-    
-    @State var sm = SMAppService()
-    
-    @State var onStart:Bool = false
-        
-    init(){
-        onStart = SMAppService().status == .enabled ? true : false
-    }
-    
+    @State private var status = SMAppService.mainApp.status
+    @State private var isApplyingChange = false
+    @State private var errorMessage: String?
+
     var body: some View {
-        Toggle(isOn: $onStart, label: {
-            Text("Launch at Login")
-        })
-        .onChange(of: onStart) { oldValue, newValue in
-            switch newValue {
-            case true:
-                do {
-                    try sm.register()
-                }catch{
-                    print("could not register Launch item")
+        VStack(alignment: .leading, spacing: 6) {
+            Toggle(isOn: launchAtLoginBinding) {
+                Label("Launch at Login", systemImage: "power.circle")
+            }
+            .toggleStyle(.switch)
+
+            if status == .requiresApproval {
+                Button("Allow in System Settings") {
+                    SMAppService.openSystemSettingsLoginItems()
                 }
-            case false:
-                do {
-                    try sm.unregister()
-                    
-                }catch{
-                    print("could not unregister Launch item")
-                    
-                }
+                .font(.caption)
+                .buttonStyle(.link)
+            } else if let errorMessage {
+                Text(errorMessage)
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .lineLimit(2)
             }
         }
-        
-        
-        
-        
+        .onAppear {
+            status = SMAppService.mainApp.status
+        }
+    }
+
+    private var launchAtLoginBinding: Binding<Bool> {
+        Binding {
+            status == .enabled
+        } set: { shouldEnable in
+            updateLaunchAtLogin(shouldEnable)
+        }
+    }
+
+    private func updateLaunchAtLogin(_ shouldEnable: Bool) {
+        guard isApplyingChange == false else { return }
+        isApplyingChange = true
+        defer {
+            status = SMAppService.mainApp.status
+            isApplyingChange = false
+        }
+
+        do {
+            if shouldEnable {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+            errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 }
-
-
-
 #Preview {
     LaunchAtLoginView()
 }
+#endif
