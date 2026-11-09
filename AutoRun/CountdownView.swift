@@ -1,3 +1,4 @@
+#if os(macOS)
 //
 //  CountdownView.swift
 //  AutoRun
@@ -8,59 +9,43 @@
 import SwiftUI
 
 struct CountdownView: View {
-    
-    //@Binding
-    var duration:TimeInterval?
-    var finish:Date?
-    var repeats: Bool = false
-    @State var remaining:Double = 0.0
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var remainingString:String = ""
-    
+    let duration: TimeInterval
+    let finish: Date
+
     var body: some View {
-        HStack{
-            
-            ProgressView(value: max(progress, 0))
-                .progressViewStyle(LinearProgressViewStyle())
-            //  .scaleEffect(x: 1, y: 2, anchor: .center) // Makes the bar thicker
-                .padding(.horizontal, 20)
-            Text(remainingString)
-                .onReceive(timer) { time in
-                    
-                    remaining = remainingTime(until: finish, from: Date())
-                    
-                    let formatter = DateComponentsFormatter()
-                    formatter.allowedUnits = [.hour, .minute, .second]
-                    formatter.unitsStyle = .positional
-                    
-                    remainingString = formatter.string(from: TimeInterval(remaining))!
-                    
-                    //print("remaining: \(remaining.formatted()) - progress: \(progress.formatted())")
-                }
+        TimelineView(.periodic(from: .now, by: 1)) { context in
+            let remaining = max(finish.timeIntervalSince(context.date), 0)
+
+            HStack(spacing: 12) {
+                ProgressView(value: progress(for: remaining))
+                    .progressViewStyle(.linear)
+
+                Text(Self.formatter.string(from: remaining) ?? "00:00:00")
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
+                    .contentTransition(.numericText(countsDown: true))
+                    .frame(minWidth: 66, alignment: .trailing)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Time remaining")
+            .accessibilityValue(Self.formatter.string(from: remaining) ?? "")
         }
     }
-    
-    private var progress: Double {
-        guard let duration = duration, duration > 0 else { return 0.0 }
-        
-        return 1.0 - (remaining / duration)
+
+    private func progress(for remaining: TimeInterval) -> Double {
+        guard duration > 0 else { return 0 }
+        return min(max(1 - (remaining / duration), 0), 1)
     }
 
-    private func remainingTime(until finish: Date?, from date: Date) -> Double {
-        guard let finish else { return 0.0 }
-        var remaining = finish.timeIntervalSince(date)
-        guard repeats, let duration, duration > 0 else { return remaining }
-
-        while remaining <= 0 {
-            remaining += duration
-        }
-        return remaining
-    }
+    private static let formatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = [.pad]
+        return formatter
+    }()
 }
-
 #Preview {
-    //@Previewable @State
-    var finish: Date? = Date(timeIntervalSinceNow: 100.0)
-    var duration: TimeInterval? = 500.0
-    CountdownView(duration: duration, finish: finish)
+    CountdownView(duration: 500, finish: Date(timeIntervalSinceNow: 100))
 }
+#endif

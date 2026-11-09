@@ -5,6 +5,7 @@
 //  Created by OpenAI on 21.07.26.
 //
 
+#if os(macOS)
 import Foundation
 import Darwin
 
@@ -19,7 +20,10 @@ enum LaunchAgentScheduler {
     }
 
     static func isSupported(timer: TimerItem) -> Bool {
-        timer.doesRepeat && timer.interval >= 1
+        // App Store builds run under App Sandbox and cannot safely write to the
+        // user's LaunchAgents directory or manage arbitrary launchd jobs.
+        // Preserve timer behavior through TimerItem's in-process fallback.
+        timer.doesRepeat && timer.interval >= 1 && !isSandboxed
     }
 
     static func install(timer: TimerItem) throws {
@@ -48,13 +52,18 @@ enum LaunchAgentScheduler {
     }
 
     static func uninstall(timer: TimerItem) {
+        guard !isSandboxed else { return }
         let plistURL = plistURL(for: timer)
         _ = try? runLaunchctl(arguments: ["bootout", "gui/\(getuid())", plistURL.path], allowFailure: true)
         try? FileManager.default.removeItem(at: plistURL)
     }
 
     static func isInstalled(timer: TimerItem) -> Bool {
-        FileManager.default.fileExists(atPath: plistURL(for: timer).path)
+        !isSandboxed && FileManager.default.fileExists(atPath: plistURL(for: timer).path)
+    }
+
+    private static var isSandboxed: Bool {
+        ProcessInfo.processInfo.environment["APP_SANDBOX_CONTAINER_ID"] != nil
     }
     static func label(for timer: TimerItem) -> String {
         let identifier = String(describing: timer.persistentModelID)
@@ -125,3 +134,4 @@ enum LaunchAgentScheduler {
         return outputText
     }
 }
+#endif

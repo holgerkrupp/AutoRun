@@ -1,76 +1,106 @@
-//
-//  AutoRunApp.swift
-//  AutoRun
-//
-//  Created by Holger Krupp on 15.12.24.
-//
-
 import SwiftUI
+
+#if os(macOS)
 import SwiftData
+import AppKit
 
 @main
 struct AutoRunApp: App {
+    @NSApplicationDelegateAdaptor(AutoRunRemoteNotificationDelegate.self) private var appDelegate
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            TimerItem.self,
-        ])
+        let schema = Schema([TimerItem.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-    
-    @Query private var timers: [TimerItem]
 
     var body: some Scene {
-        MenuBarExtra{
-
-            TimerItemList()
-                .modelContainer(sharedModelContainer)
-
-            
-            Divider()
-            HStack{
-                LaunchAtLoginView()
-                Spacer()
-                Button {
-                    NSApplication.shared.terminate(nil)
-                } label: {
-                    Text("Quit")
-                }.keyboardShortcut("q")
+        MenuBarExtra {
+            ZStack {
+                AutoRunLiquidGlassBackground()
+                VStack(spacing: 18) {
+                    TimerItemList().modelContainer(sharedModelContainer)
+                    HStack(spacing: 12) {
+                        LaunchAtLoginView()
+                        Spacer()
+                        Button {
+                            NSApplication.shared.terminate(nil)
+                        } label: {
+                            Label("Quit", systemImage: "power")
+                        }
+                        .keyboardShortcut("q")
+                        .buttonStyle(.glass)
+                        .buttonBorderShape(.capsule)
+                    }
+                    .autoRunGlassPanel(tint: .indigo)
+                }
+                .padding(18)
+                .frame(width: 460)
+                .backgroundExtensionEffect()
             }
-            
-            
-            .padding()
-            
-            
-            
         } label: {
-            Image(systemName: "figure.run")
-            
-            /*
-            if timers.contains(where: { timer in
-                timer.timer?.isValid == true
-            }){
-                Image(systemName: "figure.run")
-            }else{
-                Image(systemName: "figure.stand")
-            }
-            */
-        } .menuBarExtraStyle(.window)
-        
-        
-        WindowGroup("Edit Timer", for: TimerItem.self) { $timer in
-            TimerEditView(timer: timer)
-                .modelContainer(sharedModelContainer)
-            
-        } defaultValue: {
-                TimerItem()// A new message that your model stores.
-            }
+            TimerStatusIcon().modelContainer(sharedModelContainer)
+        }
+        .menuBarExtraStyle(.window)
 
+        WindowGroup("Edit Timer", for: TimerItem.self) { $timer in
+            TimerEditView(timer: timer).modelContainer(sharedModelContainer)
+        } defaultValue: {
+            TimerItem()
+        }
+
+        Settings {
+            Text("Remote access is opt-in per timer. Published metadata never contains script source or local paths.")
+                .padding()
         }
     }
+}
 
+private struct TimerStatusIcon: View {
+    @Query private var timers: [TimerItem]
+
+    var body: some View {
+        Image(systemName: timers.contains(where: \.isEnabled) ? "figure.run.circle.fill" : "figure.stand")
+            .accessibilityLabel(timers.contains(where: \.isEnabled) ? "AutoRun, timers active" : "AutoRun, no active timers")
+            .onAppear {
+                for timer in timers {
+                    timer.synchronizeLaunchConfiguration()
+                    timer.resumeIfNeeded()
+                }
+                Task { @MainActor in
+                    await MacRemoteCommandProcessor.shared.reconcile(timers: timers)
+                }
+            }
+            .onChange(of: timers.count) { _, _ in
+                Task { @MainActor in
+                    await MacRemoteCommandProcessor.shared.reconcile(timers: timers)
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .autoRunRemoteDataDidChange)) { _ in
+                Task { @MainActor in
+                    await MacRemoteCommandProcessor.shared.reconcile(timers: timers)
+                }
+            }
+    }
+}
+#else
+
+#if os(iOS)
+import UIKit
+#endif
+
+@main
+struct AutoRunApp: App {
+    #if os(iOS)
+    @UIApplicationDelegateAdaptor(AutoRunRemoteNotificationDelegate.self) private var appDelegate
+    #endif
+    var body: some Scene {
+        WindowGroup {
+            CompanionRootView()
+        }
+    }
+}
+#endif
